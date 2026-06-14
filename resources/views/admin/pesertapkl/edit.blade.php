@@ -36,7 +36,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.pesertapkl.update', $peserta->id) }}" method="POST">
+            <form action="{{ route('admin.pesertapkl.update', $peserta->uuid) }}" method="POST">
                 @csrf
                 @method('PUT')
 

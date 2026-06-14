@@ -2,18 +2,30 @@
 
 namespace App\Models;
 
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 
 class Pembimbing extends Model
 {
+    use HasUuid;
+
     protected $table = 'pembimbings';
 
     protected $fillable = [
+        'uuid',
         'user_id',
         'nama',
         'jabatan',
         'divisi_id',
     ];
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 
     public function user()
     {

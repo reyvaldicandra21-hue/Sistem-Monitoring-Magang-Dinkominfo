@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 
 class Tugas extends Model
 {
+    use HasUuid;
 
     protected $table='tugas';
 
     protected $fillable=[
+        'uuid',
         'pembimbing_id',
         'judul',
         'deskripsi',

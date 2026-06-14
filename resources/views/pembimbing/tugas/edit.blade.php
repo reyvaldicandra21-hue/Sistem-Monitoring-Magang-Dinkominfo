@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<form action="{{ route('pembimbing.tugas.update', $tugas->id) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('pembimbing.tugas.update', $tugas->uuid) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 

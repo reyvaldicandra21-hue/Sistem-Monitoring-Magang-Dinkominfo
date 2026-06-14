@@ -42,24 +42,35 @@
                     <i class='bx bx-calendar me-1 text-primary'></i>
                     Tenggat: {{ \Carbon\Carbon::parse($tugas->deadline)->format('d M Y') }}
                 </div>
-                @if($tugas->file)
-                <div class="p-3 bg-white rounded-4 border border-dashed d-flex align-items-center mt-3 shadow-sm">
-                    <div class="icon-circle bg-primary bg-opacity-10 text-primary me-3">
-                        <i class='bx bxs-file-pdf'></i>
-                    </div>
-                    <div class="flex-grow-1 overflow-hidden">
-                        <div class="fw-bold text-dark small text-truncate">File Materi</div>
-                        <small class="text-muted d-block">Download panduan tugas</small>
-                    </div>
-                    <a href="{{ asset('storage/'.$tugas->file) }}" target="_blank" class="btn btn-primary btn-sm px-3 rounded-pill ms-2">
-                        <i class='bx bx-download'></i>
-                    </a>
-                </div>
-                @endif
             </div>
+            @if($tugas->file)
+            <div class="p-3 bg-white rounded-4 border border-dashed d-flex align-items-center mt-3 shadow-sm">
+                @php
+                    $extension = pathinfo($tugas->file, PATHINFO_EXTENSION);
+                    $iconClass = match(strtolower($extension)) {
+                        'pdf' => 'bxs-file-pdf text-danger',
+                        'doc', 'docx' => 'bxs-file-doc text-primary',
+                        'xls', 'xlsx' => 'bxs-file-export text-success',
+                        'zip', 'rar' => 'bxs-file-archive text-warning',
+                        'jpg', 'jpeg', 'png' => 'bxs-file-image text-info',
+                        default => 'bxs-file-blank text-secondary'
+                    };
+                @endphp
+                <div class="icon-circle bg-light me-3 flex-shrink-0" style="width: 42px; height: 42px; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+                    <i class='bx {{ $iconClass }}'></i>
+                </div>
+                <div class="flex-grow-1 overflow-hidden">
+                    <div class="fw-bold text-dark small text-truncate" title="{{ basename($tugas->file) }}">{{ basename($tugas->file) }}</div>
+                    <small class="text-muted d-block" style="font-size: 0.75rem;">Materi dari Pembimbing ({{ strtoupper($extension) }})</small>
+                </div>
+                <a href="{{ asset('storage/'.$tugas->file) }}" target="_blank" class="btn btn-primary btn-sm px-3 rounded-pill ms-2 shadow-sm d-flex align-items-center gap-1 py-2 fw-semibold">
+                    <i class='bx bx-download'></i> <span>Unduh</span>
+                </a>
+            </div>
+            @endif
         </div>
 
-        <form method="POST" action="{{ route('pesertapkl.tugas.kumpul', $tugas->id) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('pesertapkl.tugas.kumpul', $tugas->uuid) }}" enctype="multipart/form-data">
         @csrf
 
             <!-- UPLOAD BOX -->

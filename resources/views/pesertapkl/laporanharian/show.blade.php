@@ -37,7 +37,7 @@
             <p class="mb-2 small text-secondary">
                 Catatan revisi: <strong>{{ $cleanCatatan }}</strong>
             </p>
-            <a href="{{ route('pesertapkl.laporanharian.edit', $laporan->id) }}" class="btn btn-warning btn-sm fw-bold rounded-pill text-dark px-3 shadow-xs">
+            <a href="{{ route('pesertapkl.laporanharian.edit', $laporan->uuid) }}" class="btn btn-warning btn-sm fw-bold rounded-pill text-dark px-3 shadow-xs">
                 <i class='bx bx-edit-alt'></i> Perbaiki Sekarang
             </a>
         </div>

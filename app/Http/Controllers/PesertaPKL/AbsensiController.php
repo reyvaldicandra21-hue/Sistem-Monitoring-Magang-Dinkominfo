@@ -129,6 +129,18 @@ public function absenMasuk(Request $request)
 
 public function formIzin()
 {
+    $peserta = PesertaPkl::where('user_id', Auth::id())->first();
+    $today = Carbon::today();
+    
+    $absensi = Absensi::where('peserta_pkl_id', $peserta->id)
+                ->whereDate('tanggal', $today)
+                ->first();
+
+    if ($absensi) {
+        return redirect()->route('pesertapkl.absensi.index')
+            ->with('error', 'Anda sudah mengisi absensi hari ini.');
+    }
+
     return view('pesertapkl.absensi.izin');
 }
 
@@ -142,10 +154,19 @@ public function izin(Request $request)
 
     $peserta = PesertaPkl::where('user_id', Auth::id())->first();
 
+    // Cek apakah sudah ada absensi pada tanggal tersebut
+    $cek = Absensi::where('peserta_pkl_id', $peserta->id)
+            ->whereDate('tanggal', $request->tanggal)
+            ->first();
+
+    if ($cek) {
+        return redirect()->route('pesertapkl.absensi.index')
+            ->with('error', 'Anda sudah melakukan absensi pada tanggal tersebut.');
+    }
+
     $bukti = null;
 
     if ($request->file('bukti')) {
-
         // 🔥 WAJIB pakai store
         $bukti = $request->file('bukti')->store('bukti_izin', 'public');
     }
@@ -162,7 +183,7 @@ public function izin(Request $request)
 
     return redirect()
         ->route('pesertapkl.absensi.index')
-        ->with('success','Pengajuan izin berhasil dikirim');
+        ->with('success', 'Pengajuan izin berhasil dikirim');
 }
 
 

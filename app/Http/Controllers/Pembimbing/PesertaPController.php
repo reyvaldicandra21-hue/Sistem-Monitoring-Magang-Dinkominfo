@@ -28,7 +28,7 @@ class PesertaPController extends Controller
         return view('pembimbing.peserta.index', compact('peserta'));
     }
 
-public function show($id)
+public function show($uuid)
 {
     $pembimbing = Auth::user()->pembimbing;
 
@@ -44,7 +44,8 @@ public function show($id)
         }
     ])
     ->where('pembimbing_id', $pembimbing->id)
-    ->findOrFail($id);
+    ->where('uuid', $uuid)
+    ->firstOrFail();
 
     // 🔥 AMBIL TUGAS KHUSUS PESERTA INI
     $tugas = Tugas::where('pembimbing_id', $pembimbing->id)

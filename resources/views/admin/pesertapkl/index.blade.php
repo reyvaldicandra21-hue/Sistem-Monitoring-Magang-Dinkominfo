@@ -196,7 +196,7 @@
                 <!-- ACTION: ATUR PENEMPATAN -->
                 @if(!$peserta->divisi_id || !$peserta->pembimbing_id)
                     <div class="mb-3">
-                        <a href="{{ route('admin.pesertapkl.edit', $peserta->id) }}" class="btn btn-warning btn-sm w-100 rounded-pill fw-bold text-dark shadow-xs transition-all hover-up">
+                        <a href="{{ route('admin.pesertapkl.edit', $peserta->uuid) }}" class="btn btn-warning btn-sm w-100 rounded-pill fw-bold text-dark shadow-xs transition-all hover-up">
                             <i class='bx bx-user-plus me-1'></i> Atur Penempatan
                         </a>
                     </div>
@@ -204,14 +204,14 @@
 
                 <!-- ACTIONS -->
                 <div class="d-flex gap-2">
-                    <a href="{{ route('admin.pesertapkl.show', $peserta->id) }}" class="btn btn-outline-success btn-sm rounded-pill flex-fill fw-bold" title="Detail">
+                    <a href="{{ route('admin.pesertapkl.show', $peserta->uuid) }}" class="btn btn-outline-success btn-sm rounded-pill flex-fill fw-bold" title="Detail">
                         <i class='bx bx-show'></i>
                     </a>
-                    <a href="{{ route('admin.pesertapkl.edit', $peserta->id) }}" class="btn btn-outline-primary btn-sm rounded-pill flex-fill fw-bold" title="Edit">
+                    <a href="{{ route('admin.pesertapkl.edit', $peserta->uuid) }}" class="btn btn-outline-primary btn-sm rounded-pill flex-fill fw-bold" title="Edit">
                         <i class='bx bx-edit'></i>
                     </a>
 
-                    <form action="{{ route('admin.pesertapkl.destroy', $peserta->id) }}" method="POST" onsubmit="return confirm('Yakin hapus data ini?')" class="flex-fill">
+                    <form action="{{ route('admin.pesertapkl.destroy', $peserta->uuid) }}" method="POST" onsubmit="return confirm('Yakin hapus data ini?')" class="flex-fill">
                         @csrf @method('DELETE')
                         <button class="btn btn-outline-danger btn-sm rounded-pill w-100 fw-bold" title="Hapus">
                             <i class='bx bx-trash'></i>

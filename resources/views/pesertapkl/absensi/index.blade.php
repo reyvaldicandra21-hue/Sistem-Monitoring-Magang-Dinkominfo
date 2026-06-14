@@ -174,6 +174,7 @@
     </div>
 
     <!-- AKSI LAIN -->
+    @if(!$absensi)
     <div class="card-soft">
         <h6 class="fw-bold mb-3"><i class='bx bx-list-plus text-secondary'></i> Tidak bisa hadir?</h6>
         <p class="text-muted small">Jika Anda sakit atau memiliki keperluan mendesak, silakan ajukan izin resmi.</p>
@@ -181,6 +182,7 @@
             <i class='bx bx-envelope'></i> Form Pengajuan Izin
         </a>
     </div>
+    @endif
 
 </div>
 

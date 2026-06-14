@@ -113,7 +113,7 @@
                     </td>
                     <td class="text-center pe-4">
                         <button class="btn btn-primary btn-sm rounded-pill px-3 fw-bold btn-calendar"
-                                data-id="{{ $peserta->id }}"
+                                data-id="{{ $peserta->uuid }}"
                                 data-nama="{{ $peserta->user->name }}">
                             <i class='bx bx-calendar'></i> Kalender
                         </button>

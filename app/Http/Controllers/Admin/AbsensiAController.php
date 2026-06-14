@@ -91,7 +91,7 @@ public function index(Request $request)
     ));
 }
 
-public function kalender($id, $bulan)
+public function kalender($uuid, $bulan)
 {
     try {
         $start = Carbon::parse($bulan)->startOfMonth();
@@ -101,17 +101,21 @@ public function kalender($id, $bulan)
         $end   = now()->endOfMonth();
     }
 
-    $data = Absensi::where('peserta_pkl_id', $id)
+    $peserta = PesertaPKL::where('uuid', $uuid)->firstOrFail();
+
+    $data = Absensi::where('peserta_pkl_id', $peserta->id)
         ->whereBetween('tanggal', [$start, $end])
         ->get();
 
     return response()->json($data);
 }
 
-public function detail($peserta,$tanggal)
+public function detail($uuid, $tanggal)
 {
-    $absensi = Absensi::where('peserta_pkl_id',$peserta)
-        ->whereDate('tanggal',$tanggal)
+    $peserta = PesertaPKL::where('uuid', $uuid)->firstOrFail();
+
+    $absensi = Absensi::where('peserta_pkl_id', $peserta->id)
+        ->whereDate('tanggal', $tanggal)
         ->first();
 
     if(!$absensi){

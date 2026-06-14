@@ -47,16 +47,13 @@ class TugasAController extends Controller
     return view('admin.tugas.index', compact('tugas'));
 }
 
-    // =========================
-    // DETAIL / HASIL TUGAS
-    // =========================
-    public function hasil($id)
+    public function hasil($uuid)
     {
         $tugas = Tugas::with([
                 'pesertaPkl.user',
                 'pengumpulan.pesertaPkl.user'
             ])
-            ->findOrFail($id);
+            ->where('uuid', $uuid)->firstOrFail();
 
         return view('admin.tugas.hasil', compact('tugas'));
     }

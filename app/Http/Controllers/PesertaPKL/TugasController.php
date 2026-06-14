@@ -35,7 +35,7 @@ class TugasController extends Controller
         return view('pesertapkl.tugas.index', compact('tugas', 'peserta'));
     }
 
-    public function create($id)
+    public function create($uuid)
 {
     $peserta = PesertaPKL::where('user_id', Auth::id())->first();
 
@@ -43,7 +43,7 @@ class TugasController extends Controller
         return redirect('/lengkapi-data');
     }
 
-    $tugas = $peserta->tugas()->findOrFail($id);
+    $tugas = $peserta->tugas()->where('uuid', $uuid)->firstOrFail();
 
     return view('pesertapkl.tugas.create', compact('tugas'));
 }
@@ -51,7 +51,7 @@ class TugasController extends Controller
     // =========================
     // SHOW
     // =========================
-    public function show($id)
+    public function show($uuid)
     {
         $peserta = PesertaPKL::where('user_id', Auth::id())->first();
 
@@ -61,7 +61,7 @@ class TugasController extends Controller
 
         $tugas = $peserta->tugas()
             ->with('pengumpulan')
-            ->findOrFail($id);
+            ->where('uuid', $uuid)->firstOrFail();
 
         $pengumpulan = $tugas->pengumpulan
             ->where('peserta_pkl_id', $peserta->id)
@@ -89,7 +89,7 @@ class TugasController extends Controller
     // =========================
     // KUMPUL
     // =========================
-    public function kumpul(Request $request, $id)
+    public function kumpul(Request $request, $uuid)
     {
         $request->validate([
             'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar,jpg,png|max:5120',
@@ -102,9 +102,9 @@ class TugasController extends Controller
             return redirect('pesertapkl.lengkapidata');
         }
 
-        $tugas = $peserta->tugas()->findOrFail($id);
+        $tugas = $peserta->tugas()->where('uuid', $uuid)->firstOrFail();
 
-        $existing = TugasPengumpulan::where('tugas_id', $id)
+        $existing = TugasPengumpulan::where('tugas_id', $tugas->id)
             ->where('peserta_pkl_id', $peserta->id)
             ->first();
 
@@ -136,7 +136,7 @@ class TugasController extends Controller
         // =========================
         TugasPengumpulan::updateOrCreate(
             [
-                'tugas_id' => $id,
+                'tugas_id' => $tugas->id,
                 'peserta_pkl_id' => $peserta->id,
             ],
             [

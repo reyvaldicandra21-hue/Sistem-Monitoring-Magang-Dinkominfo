@@ -31,7 +31,7 @@
                 <h6 class="fw-bold mb-0">Informasi Profil</h6>
             </div>
 
-            <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
+            <form action="{{ route('admin.users.update', $user->uuid) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -86,7 +86,7 @@
 
             <p class="text-secondary small mb-4">Ubah password pengguna jika mereka lupa atau ingin meningkatkan keamanan akun.</p>
 
-            <form action="{{ route('admin.users.reset-password', $user->id) }}" method="POST">
+            <form action="{{ route('admin.users.reset-password', $user->uuid) }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label class="form-label fw-bold small text-secondary">PASSWORD BARU</label>

@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div>
-                <a href="{{ route('admin.pesertapkl.edit', $pesertapkl->id) }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+                <a href="{{ route('admin.pesertapkl.edit', $pesertapkl->uuid) }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
                     <i class='bx bx-edit-alt me-1'></i> Edit Profil
                 </a>
             </div>
@@ -337,7 +337,7 @@
 
         @if($pesertapkl->laporanHarian->count() > 0)
         <div class="mt-4 text-end">
-            <a href="{{ route('admin.laporanharian.buku', $pesertapkl->id) }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+            <a href="{{ route('admin.laporanharian.buku', $pesertapkl->uuid) }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
                 <i class='bx bxs-file-pdf me-2'></i> Download Buku Laporan
             </a>
         </div>

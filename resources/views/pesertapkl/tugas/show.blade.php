@@ -76,17 +76,31 @@
         </div>
 
         @if($tugas->file)
-        <div class="p-3 bg-light rounded-4 border border-dashed d-flex align-items-center mt-3">
-            <div class="icon-circle bg-white text-danger me-3 shadow-sm">
-                <i class='bx bxs-file-pdf'></i>
+        <div class="mt-4 pt-3 border-top">
+            <label class="text-secondary small fw-bold mb-2 d-block">FILE LAMPIRAN / MATERI</label>
+            <div class="p-3 bg-light bg-opacity-50 rounded-4 border border-dashed d-flex align-items-center">
+                @php
+                    $extension = pathinfo($tugas->file, PATHINFO_EXTENSION);
+                    $iconClass = match(strtolower($extension)) {
+                        'pdf' => 'bxs-file-pdf text-danger',
+                        'doc', 'docx' => 'bxs-file-doc text-primary',
+                        'xls', 'xlsx' => 'bxs-file-export text-success',
+                        'zip', 'rar' => 'bxs-file-archive text-warning',
+                        'jpg', 'jpeg', 'png' => 'bxs-file-image text-info',
+                        default => 'bxs-file-blank text-secondary'
+                    };
+                @endphp
+                <div class="icon-circle bg-white shadow-sm me-3 flex-shrink-0" style="width: 42px; height: 42px; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+                    <i class='bx {{ $iconClass }}'></i>
+                </div>
+                <div class="flex-grow-1 overflow-hidden">
+                    <div class="fw-bold text-dark small text-truncate" title="{{ basename($tugas->file) }}">{{ basename($tugas->file) }}</div>
+                    <small class="text-muted d-block" style="font-size: 0.75rem;">Materi dari Pembimbing ({{ strtoupper($extension) }})</small>
+                </div>
+                <a href="{{ asset('storage/'.$tugas->file) }}" target="_blank" class="btn btn-primary btn-sm px-3 rounded-pill ms-2 shadow-sm d-flex align-items-center gap-1 py-2 fw-semibold">
+                    <i class='bx bx-download'></i> <span>Unduh</span>
+                </a>
             </div>
-            <div class="flex-grow-1 overflow-hidden">
-                <div class="fw-bold text-dark small text-truncate">File Lampiran</div>
-                <small class="text-muted d-block">Materi dari Pembimbing</small>
-            </div>
-            <a href="{{ asset('storage/'.$tugas->file) }}" target="_blank" class="btn btn-primary btn-sm px-3 rounded-pill ms-2">
-                <i class='bx bx-download'></i>
-            </a>
         </div>
         @endif
     </div>
@@ -102,21 +116,32 @@
             <h5 class="fw-bold mb-0">{{ $pengumpulan ? 'Update Pekerjaan' : 'Kumpulkan Pekerjaan' }}</h5>
         </div>
 
-        <form action="{{ route('pesertapkl.tugas.kumpul',$tugas->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('pesertapkl.tugas.kumpul',$tugas->uuid) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
             <!-- CURRENT FILE INFO -->
             @if($pengumpulan && $pengumpulan->file)
-            <div class="p-3 bg-success bg-opacity-10 rounded-4 border border-success border-opacity-25 d-flex align-items-center mb-4">
-                <div class="icon-circle bg-success text-white me-3 shadow-sm">
-                    <i class='bx bxs-file-blank'></i>
+            @php
+                $submissionExtension = pathinfo($pengumpulan->file, PATHINFO_EXTENSION);
+                $submissionIconClass = match(strtolower($submissionExtension)) {
+                    'pdf' => 'bxs-file-pdf text-danger',
+                    'doc', 'docx' => 'bxs-file-doc text-primary',
+                    'xls', 'xlsx' => 'bxs-file-export text-success',
+                    'zip', 'rar' => 'bxs-file-archive text-warning',
+                    'jpg', 'jpeg', 'png' => 'bxs-file-image text-info',
+                    default => 'bxs-file-blank text-secondary'
+                };
+            @endphp
+            <div class="p-3 bg-success bg-opacity-10 rounded-4 border border-success border-opacity-20 d-flex align-items-center mb-4">
+                <div class="icon-circle bg-white shadow-sm me-3 flex-shrink-0" style="width: 42px; height: 42px; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
+                    <i class='bx {{ $submissionIconClass }}'></i>
                 </div>
                 <div class="flex-grow-1 overflow-hidden">
                     <div class="fw-bold text-success small">Sudah Dikumpulkan:</div>
-                    <div class="text-dark text-truncate small">{{ basename($pengumpulan->file) }}</div>
+                    <div class="text-dark text-truncate small" title="{{ basename($pengumpulan->file) }}">{{ basename($pengumpulan->file) }}</div>
                 </div>
-                <a href="{{ asset('storage/'.$pengumpulan->file) }}" target="_blank" class="btn btn-success btn-sm px-3 rounded-pill ms-2">
-                    <i class='bx bx-show'></i>
+                <a href="{{ asset('storage/'.$pengumpulan->file) }}" target="_blank" class="btn btn-success btn-sm px-3 rounded-pill ms-2 shadow-sm d-flex align-items-center gap-1 py-2 fw-semibold text-white">
+                    <i class='bx bx-show'></i> <span>Lihat</span>
                 </a>
             </div>
             @endif

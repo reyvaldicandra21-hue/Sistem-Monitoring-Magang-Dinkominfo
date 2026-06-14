@@ -41,29 +41,29 @@ class DivisiController extends Controller
             ->with('success', 'Divisi berhasil ditambahkan');
     }
 
-    public function show($id)
+    public function show($uuid)
 {
     $divisi = \App\Models\Divisi::with([
         'pesertaPkl.user',
         'pembimbing.user'
-    ])->findOrFail($id);
+    ])->where('uuid', $uuid)->firstOrFail();
 
     return view('admin.divisi.show', compact('divisi'));
 }
-    public function edit($id)
+    public function edit($uuid)
     {
-        $divisi = Divisi::findOrFail($id);
+        $divisi = Divisi::where('uuid', $uuid)->firstOrFail();
 
         return view('admin.divisi.edit', compact('divisi'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
         $request->validate([
             'nama_divisi' => 'required|max:255',
         ]);
 
-        $divisi = Divisi::findOrFail($id);
+        $divisi = Divisi::where('uuid', $uuid)->firstOrFail();
 
         $divisi->update([
             'nama_divisi' => $request->nama_divisi
@@ -74,9 +74,9 @@ class DivisiController extends Controller
             ->with('success', 'Divisi berhasil diperbarui');
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $divisi = Divisi::findOrFail($id);
+        $divisi = Divisi::where('uuid', $uuid)->firstOrFail();
         $divisi->delete();
 
         return back()->with('success', 'Divisi berhasil dihapus');

@@ -24,7 +24,7 @@
     <div class="col-lg-10 col-xl-8">
         <div class="card-soft p-4 p-md-5 shadow-sm border-0 position-relative overflow-hidden">
 
-            <form action="{{ route('admin.pembimbing.update', $pembimbing->id) }}" method="POST">
+            <form action="{{ route('admin.pembimbing.update', $pembimbing->uuid) }}" method="POST">
                 @csrf
                 @method('PUT')
 

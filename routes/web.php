@@ -94,12 +94,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         Route::get('pesertapkl', 'index')->name('pesertapkl.index');
         Route::get('pesertapkl/create', 'create')->name('pesertapkl.create');
         Route::post('pesertapkl', 'store')->name('pesertapkl.store');
-        Route::get('pesertapkl/detail/{id}', 'show')->name('pesertapkl.show'); // 🔥 DETAIL (manual ID)
-        Route::get('pesertapkl/{id}/edit', 'edit')->name('pesertapkl.edit');
-        Route::put('pesertapkl/{id}', 'update')->name('pesertapkl.update');
-        Route::delete('pesertapkl/{id}', 'destroy')->name('pesertapkl.destroy');
-        Route::get('peserta-pkl/{pesertapkl}/assign', 'assign')->name('pesertapkl.assign');
-        Route::put('peserta-pkl/{pesertapkl}/assign', 'assignUpdate')->name('pesertapkl.assign.update');
+        Route::get('pesertapkl/detail/{uuid}', 'show')->name('pesertapkl.show');
+        Route::get('pesertapkl/{uuid}/edit', 'edit')->name('pesertapkl.edit');
+        Route::put('pesertapkl/{uuid}', 'update')->name('pesertapkl.update');
+        Route::delete('pesertapkl/{uuid}', 'destroy')->name('pesertapkl.destroy');
+        Route::get('peserta-pkl/{uuid}/assign', 'assign')->name('pesertapkl.assign');
+        Route::put('peserta-pkl/{uuid}/assign', 'assignUpdate')->name('pesertapkl.assign.update');
         Route::get('pesertapkl/statistik/tahunan', 'statistikTahunan')->name('pesertapkl.statistik.tahunan');
         Route::get('pesertapkl/statistik/bulan/{bulan}', 'statistikBulanan')->name('pesertapkl.statistik.bulanan');
     });
@@ -108,8 +108,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // ABSENSI
     Route::controller(AbsensiAController::class)->prefix('absensi')->name('absensis.')->group(function() {
         Route::get('/', 'index')->name('index');
-        Route::get('kalender/{id}/{bulan}', 'kalender');
-        Route::get('detail/{id}/{tanggal}', 'detail');
+        Route::get('kalender/{uuid}/{bulan}', 'kalender');
+        Route::get('detail/{uuid}/{tanggal}', 'detail');
         Route::get('export', 'export')->name('export');
         Route::get('export-excel', 'exportExcel')->name('export.excel');
         Route::get('export-pdf', 'exportPdf')->name('export.pdf');
@@ -118,16 +118,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // LAPORAN HARIAN
     Route::controller(LaporanHarianAController::class)->prefix('laporan-harian')->name('laporanharian.')->group(function() {
         Route::get('/', 'index')->name('index');
-        Route::get('{id}', 'show')->name('show');
-        Route::post('{id}/verifikasi', 'verifikasi')->name('verifikasi');
-        Route::get('{id}/download', 'download')->name('download');
-        Route::get('peserta/{peserta_id}/buku', 'downloadBuku')->name('buku');
+        Route::get('{uuid}', 'show')->name('show');
+        Route::post('{uuid}/verifikasi', 'verifikasi')->name('verifikasi');
+        Route::get('{uuid}/download', 'download')->name('download');
+        Route::get('peserta/{uuid}/buku', 'downloadBuku')->name('buku');
     });
 
     // TUGAS & PENILAIAN
     Route::controller(TugasAController::class)->prefix('tugas')->name('tugas.')->group(function() {
         Route::get('/', 'index')->name('index');
-        Route::get('{id}', 'hasil')->name('hasil');
+        Route::get('{uuid}', 'hasil')->name('hasil');
     });
 
     Route::get('/penilaian', [PenilaianAController::class, 'index'])->name('penilaian.index');
@@ -146,39 +146,39 @@ Route::middleware(['auth', 'role:pembimbing'])->prefix('pembimbing')->name('pemb
 
     Route::controller(LaporanHarianPController::class)->prefix('laporan-harian')->name('laporanharian.')->group(function() {
         Route::get('/', 'index')->name('index');
-        Route::get('{id}', 'show')->name('show');
-        Route::put('{id}/approve', 'approve')->name('approve');
-        Route::put('{id}/reject', 'reject')->name('reject');
-        Route::post('{id}/verifikasi', 'verifikasi')->name('verifikasi');
+        Route::get('{uuid}', 'show')->name('show');
+        Route::put('{uuid}/approve', 'approve')->name('approve');
+        Route::put('{uuid}/reject', 'reject')->name('reject');
+        Route::post('{uuid}/verifikasi', 'verifikasi')->name('verifikasi');
     });
 
     Route::controller(PenilaianController::class)->prefix('penilaian')->name('penilaian.')->group(function() {
         Route::get('/', 'index')->name('index');
-        Route::get('{id}/edit', 'edit')->name('edit');
-        Route::put('{id}', 'update')->name('update');
+        Route::get('{uuid}/edit', 'edit')->name('edit');
+        Route::put('{uuid}', 'update')->name('update');
     });
 
     Route::controller(TugasPController::class)->prefix('tugas')->name('tugas.')->group(function() {
         Route::get('/', 'index')->name('index');
         Route::get('create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
-        Route::get('{id}/edit', 'edit')->name('edit');
-        Route::put('{id}', 'update')->name('update');
-        Route::get('{id}/hasil', 'hasil')->name('hasil');
-        Route::delete('{id}', 'destroy')->name('destroy');
+        Route::get('{uuid}/edit', 'edit')->name('edit');
+        Route::put('{uuid}', 'update')->name('update');
+        Route::get('{uuid}/hasil', 'hasil')->name('hasil');
+        Route::delete('{uuid}', 'destroy')->name('destroy');
     });
 
     Route::controller(AbsensiPController::class)->prefix('absensi')->name('absensi.')->group(function() {
         Route::get('/', 'index')->name('index');
-        Route::get('kalender/{id}/{bulan}', 'kalender');
-        Route::get('detail/{id}/{tanggal}', 'detail');
+        Route::get('kalender/{uuid}/{bulan}', 'kalender');
+        Route::get('detail/{uuid}/{tanggal}', 'detail');
         Route::get('export-excel', 'exportExcel')->name('export.excel');
         Route::get('export-pdf', 'exportPdf')->name('export.pdf');
     });
 
     Route::controller(PesertaPController::class)->prefix('peserta')->name('peserta.')->group(function() {
         Route::get('/', 'index')->name('index');
-        Route::get('{id}', 'show')->name('show');
+        Route::get('{uuid}', 'show')->name('show');
     });
 
     Route::controller(VerifikasiLaporanController::class)->prefix('verifikasi-laporan')->name('verifikasi.')->group(function() {
@@ -214,16 +214,16 @@ Route::middleware(['auth', 'role:pesertapkl'])->prefix('peserta')->name('peserta
         Route::get('/laporan', 'index')->name('laporanharian.index');
         Route::get('/laporan/create', 'create')->name('laporanharian.create');
         Route::post('/laporan/store', 'store')->name('laporanharian.store');
-        Route::get('/laporan/{id}', 'show')->name('laporanharian.show');
-        Route::get('/laporan-harian/{id}/edit', 'edit')->name('laporanharian.edit');
-        Route::put('/laporan-harian/{id}', 'update')->name('laporanharian.update');
+        Route::get('/laporan/{uuid}', 'show')->name('laporanharian.show');
+        Route::get('/laporan-harian/{uuid}/edit', 'edit')->name('laporanharian.edit');
+        Route::put('/laporan-harian/{uuid}', 'update')->name('laporanharian.update');
     });
 
     Route::controller(TugasController::class)->group(function() {
         Route::get('/tugas', 'index')->name('tugas.index');
-        Route::get('/tugas/{id}', 'show')->name('tugas.show');
-        Route::get('/tugas/{id}/create', 'create')->name('tugas.create');
-        Route::post('/tugas/{id}/kumpul', 'kumpul')->name('tugas.kumpul');
+        Route::get('/tugas/{uuid}', 'show')->name('tugas.show');
+        Route::get('/tugas/{uuid}/create', 'create')->name('tugas.create');
+        Route::post('/tugas/{uuid}/kumpul', 'kumpul')->name('tugas.kumpul');
     });
 
     Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');

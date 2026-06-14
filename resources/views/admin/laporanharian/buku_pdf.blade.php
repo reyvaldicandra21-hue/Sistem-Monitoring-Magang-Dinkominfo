@@ -45,50 +45,64 @@
             font-weight: bold;
         }
         
-        /* Laporan Style */
-        .laporan-header {
-            border-bottom: 2px solid #0056b3;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+        /* Laporan Table Style */
+        .table-laporan {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            table-layout: fixed;
         }
-        .laporan-header h3 {
-            margin: 0;
-            color: #0056b3;
+        .table-laporan thead {
+            display: table-header-group;
         }
-        .laporan-header p {
-            margin: 5px 0 0 0;
-            color: #666;
+        .table-laporan th {
+            background-color: #0056b3;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            padding: 8px 6px;
             font-size: 11px;
         }
-        .content-box {
-            background-color: #f8f9fa;
+        .table-laporan td {
             border: 1px solid #dee2e6;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            padding: 8px;
+            font-size: 11px;
+            vertical-align: top;
+            word-wrap: break-word;
         }
-        .content-title {
-            font-weight: bold;
+        .table-laporan tr {
+            page-break-inside: avoid;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: #6c757d;
+        }
+        .img-wrapper {
             margin-bottom: 5px;
-            color: #444;
         }
-        .dokumentasi {
-            margin-top: 20px;
-        }
-        .dokumentasi img {
+        .img-wrapper img {
             max-width: 100%;
-            max-height: 300px;
+            max-height: 80px;
             border: 1px solid #ccc;
-            margin-bottom: 10px;
+            border-radius: 3px;
             display: block;
+            margin: 0 auto;
+        }
+        .no-doc {
+            color: #bbb;
+            font-style: italic;
         }
         .status-badge {
             display: inline-block;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 10px;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 9px;
             font-weight: bold;
             text-transform: uppercase;
+            text-align: center;
         }
         .status-disetujui { background: #d4edda; color: #155724; }
         .status-menunggu { background: #fff3cd; color: #856404; }
@@ -142,47 +156,62 @@
 
     <!-- ISI LAPORAN -->
     @if($laporans->count() > 0)
-        @foreach($laporans as $index => $laporan)
-            <div class="{{ !$loop->last ? 'page-break' : '' }}">
-                <div class="laporan-header">
-                    <h3>Laporan Hari Ke-{{ $index + 1 }}</h3>
-                    <p>{{ \Carbon\Carbon::parse($laporan->tanggal)->translatedFormat('l, d F Y') }}</p>
-                    <div style="margin-top: 5px;">
-                        <span class="status-badge status-{{ strtolower($laporan->status) }}">
-                            Status: {{ strtoupper($laporan->status) }}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="content-box">
-                    <div class="content-title">Kegiatan Harian</div>
-                    <p>{!! nl2br(e($laporan->kegiatan)) !!}</p>
-                </div>
-
-                @if($laporan->dokumentasi && $laporan->dokumentasi->count() > 0)
-                    <div class="dokumentasi">
-                        <div class="content-title">Dokumentasi</div>
-                        @foreach($laporan->dokumentasi as $dok)
-                            @php
-                                $imageData = '';
-                                if(!empty($dok->foto_path)) {
-                                    $imagePath = storage_path('app/public/' . $dok->foto_path);
-                                    if(is_file($imagePath)) {
-                                        $type = pathinfo($imagePath, PATHINFO_EXTENSION);
-                                        $data = file_get_contents($imagePath);
-                                        $imageData = 'data:image/' . $type . ';base64,' . base64_encode($data);
-                                    }
-                                }
-                            @endphp
-                            
-                            @if($imageData)
-                                <img src="{{ $imageData }}" alt="Dokumentasi">
+        <table class="table-laporan">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">No</th>
+                    <th style="width: 20%;">Hari / Tanggal</th>
+                    <th style="width: 45%;">Kegiatan Harian</th>
+                    <th style="width: 18%;">Dokumentasi</th>
+                    <th style="width: 12%;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($laporans as $index => $laporan)
+                    <tr>
+                        <td class="text-center">{{ $index + 1 }}</td>
+                        <td>
+                            <strong>Hari Ke-{{ $index + 1 }}</strong><br>
+                            <span class="text-muted" style="font-size: 10px;">{{ \Carbon\Carbon::parse($laporan->tanggal)->translatedFormat('l') }}</span><br>
+                            <span style="font-size: 10px;">{{ \Carbon\Carbon::parse($laporan->tanggal)->translatedFormat('d M Y') }}</span>
+                        </td>
+                        <td>
+                            {!! nl2br(e($laporan->kegiatan)) !!}
+                        </td>
+                        <td class="text-center">
+                            @if($laporan->dokumentasi && $laporan->dokumentasi->count() > 0)
+                                @foreach($laporan->dokumentasi->take(2) as $dok)
+                                    @php
+                                        $imageData = '';
+                                        if(!empty($dok->file)) {
+                                            $imagePath = storage_path('app/public/' . $dok->file);
+                                            if(is_file($imagePath)) {
+                                                $type = pathinfo($imagePath, PATHINFO_EXTENSION);
+                                                $data = file_get_contents($imagePath);
+                                                $imageData = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                                            }
+                                        }
+                                    @endphp
+                                    
+                                    @if($imageData)
+                                        <div class="img-wrapper">
+                                            <img src="{{ $imageData }}" alt="Dokumentasi">
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <span class="no-doc">-</span>
                             @endif
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-        @endforeach
+                        </td>
+                        <td class="text-center">
+                            <span class="status-badge status-{{ strtolower($laporan->status) }}">
+                                {{ strtoupper($laporan->status) }}
+                            </span>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     @else
         <div style="text-align: center; margin-top: 50px;">
             <h3>Belum ada laporan harian yang diisi oleh peserta.</h3>

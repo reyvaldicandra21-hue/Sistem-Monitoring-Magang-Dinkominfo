@@ -101,7 +101,7 @@
         @if($laporan->status == 'menunggu')
         <div class="card-soft p-4 shadow-sm border-0 bg-white">
             <h6 class="fw-bold mb-4 d-flex align-items-center"><i class='bx bx-check-shield text-primary me-2'></i> Form Verifikasi Pembimbing</h6>
-            <form id="verifikasiForm" action="{{ route('pembimbing.laporanharian.verifikasi', $laporan->id) }}" method="POST">
+            <form id="verifikasiForm" action="{{ route('pembimbing.laporanharian.verifikasi', $laporan->uuid) }}" method="POST">
                 @csrf
                 <div class="mb-4">
                     <label class="form-label fw-bold small text-secondary">CATATAN VERIFIKASI (WAJIB JIKA REVISI)</label>

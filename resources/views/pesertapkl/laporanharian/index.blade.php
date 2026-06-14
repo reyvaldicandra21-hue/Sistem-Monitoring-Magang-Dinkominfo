@@ -99,12 +99,12 @@
         @endif
 
         <div class="mt-auto pt-3 border-top d-flex gap-2">
-            <a href="{{ route('pesertapkl.laporanharian.show', $laporan->id) }}" class="btn btn-light w-100 fw-semibold text-secondary small py-2">
+            <a href="{{ route('pesertapkl.laporanharian.show', $laporan->uuid) }}" class="btn btn-light w-100 fw-semibold text-secondary small py-2">
                 <i class='bx bx-detail'></i> Detail
             </a>
 
             @if($laporan->status == 'revisi')
-            <a href="{{ route('pesertapkl.laporanharian.edit', $laporan->id) }}" class="btn btn-warning w-100 fw-semibold text-dark shadow-sm small py-2">
+            <a href="{{ route('pesertapkl.laporanharian.edit', $laporan->uuid) }}" class="btn btn-warning w-100 fw-semibold text-dark shadow-sm small py-2">
                 <i class='bx bx-edit-alt'></i> Revisi
             </a>
             @endif

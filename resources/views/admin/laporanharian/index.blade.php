@@ -117,10 +117,10 @@
                     </td>
                     <td class="pe-4 text-end">
                         <div class="d-flex justify-content-end gap-2">
-                            <a href="{{ route('admin.laporanharian.show', $l->id) }}" class="btn btn-outline-primary btn-sm rounded-circle shadow-xs" title="Detail">
+                            <a href="{{ route('admin.laporanharian.show', $l->uuid) }}" class="btn btn-outline-primary btn-sm rounded-circle shadow-xs" title="Detail">
                                 <i class='bx bx-show'></i>
                             </a>
-                            <a href="{{ route('admin.laporanharian.download', $l->id) }}" class="btn btn-outline-success btn-sm rounded-circle shadow-xs" title="Download PDF Harian">
+                            <a href="{{ route('admin.laporanharian.download', $l->uuid) }}" class="btn btn-outline-success btn-sm rounded-circle shadow-xs" title="Download PDF Harian">
                                 <i class='bx bx-download'></i>
                             </a>
                         </div>
@@ -156,7 +156,7 @@
                     <select id="selectPesertaBuku" class="form-select">
                         <option value="">-- Pilih Peserta --</option>
                         @foreach($pesertaList as $p)
-                            <option value="{{ $p->id }}">{{ $p->user->name }} ({{ $p->asal_institusi }})</option>
+                            <option value="{{ $p->uuid }}">{{ $p->user->name }} ({{ $p->asal_institusi }})</option>
                         @endforeach
                     </select>
                 </div>

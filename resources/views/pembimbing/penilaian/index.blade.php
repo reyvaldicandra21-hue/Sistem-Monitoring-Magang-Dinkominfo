@@ -76,7 +76,7 @@
                         @endif
                     </td>
                     <td class="pe-4 text-center">
-                        <a href="{{ route('pembimbing.penilaian.edit', $peserta->id) }}" class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm transition-all hover-up">
+                        <a href="{{ route('pembimbing.penilaian.edit', $peserta->uuid) }}" class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm transition-all hover-up">
                             <i class='bx bx-edit-alt me-1'></i> {{ isset($p->nilai_akhir) ? 'Update' : 'Input' }}
                         </a>
                     </td>

@@ -153,13 +153,13 @@
                 </div>
             </div>
             <div class="p-3 bg-light d-flex gap-2 border-top">
-                <a href="{{ route('pembimbing.tugas.hasil', $item->id) }}" class="btn btn-white btn-sm flex-grow-1 fw-bold rounded-pill shadow-sm">
+                <a href="{{ route('pembimbing.tugas.hasil', $item->uuid) }}" class="btn btn-white btn-sm flex-grow-1 fw-bold rounded-pill shadow-sm">
                     <i class='bx bx-show me-1'></i> Hasil
                 </a>
-                <a href="{{ route('pembimbing.tugas.edit', $item->id) }}" class="btn btn-white btn-sm px-3 rounded-circle shadow-sm" title="Edit">
+                <a href="{{ route('pembimbing.tugas.edit', $item->uuid) }}" class="btn btn-white btn-sm px-3 rounded-circle shadow-sm" title="Edit">
                     <i class='bx bx-edit-alt text-warning'></i>
                 </a>
-                <form action="{{ route('pembimbing.tugas.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin hapus tugas ini?')" class="d-inline">
+                <form action="{{ route('pembimbing.tugas.destroy', $item->uuid) }}" method="POST" onsubmit="return confirm('Yakin hapus tugas ini?')" class="d-inline">
                     @csrf @method('DELETE')
                     <button class="btn btn-white btn-sm px-3 rounded-circle shadow-sm" title="Hapus">
                         <i class='bx bx-trash text-danger'></i>

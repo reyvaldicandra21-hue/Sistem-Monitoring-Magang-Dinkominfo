@@ -97,7 +97,7 @@ public function index(Request $request)
 }
 
 // ================= KALENDER =================
-public function kalender($id, $bulan)
+public function kalender($uuid, $bulan)
 {
     $pembimbing = Auth::user()->pembimbing;
 
@@ -109,8 +109,8 @@ public function kalender($id, $bulan)
         $end   = now()->endOfMonth();
     }
 
-    $peserta = PesertaPKL::where('id',$id)
-        ->where('pembimbing_id',$pembimbing->id)
+    $peserta = PesertaPKL::where('uuid', $uuid)
+        ->where('pembimbing_id', $pembimbing->id)
         ->firstOrFail();
 
     $data = Absensi::where('peserta_pkl_id', $peserta->id)
@@ -121,20 +121,16 @@ public function kalender($id, $bulan)
 }
 
 // ================= DETAIL =================
-public function detail($peserta,$tanggal)
+public function detail($uuid, $tanggal)
 {
     $pembimbing = Auth::user()->pembimbing;
 
-    $cek = PesertaPKL::where('id',$peserta)
-        ->where('pembimbing_id',$pembimbing->id)
-        ->exists();
+    $peserta = PesertaPKL::where('uuid', $uuid)
+        ->where('pembimbing_id', $pembimbing->id)
+        ->firstOrFail();
 
-    if(!$cek){
-        abort(403);
-    }
-
-    $absensi = Absensi::where('peserta_pkl_id',$peserta)
-        ->whereDate('tanggal',$tanggal)
+    $absensi = Absensi::where('peserta_pkl_id', $peserta->id)
+        ->whereDate('tanggal', $tanggal)
         ->first();
 
     if(!$absensi){

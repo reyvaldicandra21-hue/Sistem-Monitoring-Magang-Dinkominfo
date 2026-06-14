@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div>
-                <a href="{{ route('admin.pembimbing.edit', $pembimbing->id) }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+                <a href="{{ route('admin.pembimbing.edit', $pembimbing->uuid) }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
                     <i class='bx bx-edit-alt me-1'></i> Edit Profil
                 </a>
             </div>
@@ -101,7 +101,7 @@
                                 </span>
                             </td>
                             <td class="pe-0 text-end">
-                                <a href="{{ route('admin.pesertapkl.show', $peserta->id) }}" class="btn btn-outline-primary btn-sm rounded-circle shadow-xs">
+                                <a href="{{ route('admin.pesertapkl.show', $peserta->uuid) }}" class="btn btn-outline-primary btn-sm rounded-circle shadow-xs">
                                     <i class='bx bx-chevron-right'></i>
                                 </a>
                             </td>

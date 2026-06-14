@@ -81,9 +81,9 @@ class UserController extends Controller
     /**
      * Form edit user
      */
-    public function edit($id)
+    public function edit($uuid)
     {
-        $user  = User::findOrFail($id);
+        $user  = User::where('uuid', $uuid)->firstOrFail();
         $roles = User::roles();
 
         return view('admin.user.edit', compact('user', 'roles'));
@@ -92,15 +92,15 @@ class UserController extends Controller
     /**
      * Update data user
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
+        $user = User::where('uuid', $uuid)->firstOrFail();
+
         $request->validate([
             'name'  => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'role'  => 'required|in:' . implode(',', array_keys(User::roles())),
         ]);
-
-        $user = User::findOrFail($id);
 
         DB::transaction(function () use ($request, $user) {
             $user->update([
@@ -125,13 +125,13 @@ class UserController extends Controller
     /**
      * Reset password user
      */
-    public function resetPassword(Request $request, $id)
+    public function resetPassword(Request $request, $uuid)
     {
         $request->validate([
             'password' => 'required|min:6|confirmed',
         ]);
 
-        $user = User::findOrFail($id);
+        $user = User::where('uuid', $uuid)->firstOrFail();
         $user->update([
             'password' => Hash::make($request->password),
         ]);
@@ -144,9 +144,9 @@ class UserController extends Controller
     /**
      * Hapus user
      */
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('uuid', $uuid)->firstOrFail();
 
         // Jangan izinkan admin menghapus akunnya sendiri
         if (Auth::id() == $user->id) {
@@ -162,9 +162,9 @@ class UserController extends Controller
     /**
      * Ubah status aktif/nonaktif user
      */
-    public function toggleStatus($id)
+    public function toggleStatus($uuid)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('uuid', $uuid)->firstOrFail();
 
         // Jangan izinkan admin menonaktifkan dirinya sendiri
         if (Auth::id() == $user->id) {

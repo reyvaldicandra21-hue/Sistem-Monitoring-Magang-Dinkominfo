@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 class PesertaPkl extends Model
 {
+    use HasUuid;
+
     protected $fillable = [
+        'uuid',
         'user_id',
         'pembimbing_id',
 

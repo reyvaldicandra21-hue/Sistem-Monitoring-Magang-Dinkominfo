@@ -128,7 +128,7 @@ class TugasPController extends Controller
             ->with('success', 'Tugas berhasil dibuat');
     }
 
-    public function edit($id)
+    public function edit($uuid)
     {
         $pembimbing = Auth::user()->pembimbing;
         $today = now()->toDateString();
@@ -137,14 +137,15 @@ class TugasPController extends Controller
                 $q->where('pembimbing_id', $pembimbing->id);
             })
             ->with('pesertaPkl')
-            ->findOrFail($id);
+            ->where('uuid', $uuid)
+            ->firstOrFail();
 
         $peserta = PesertaPkl::where('pembimbing_id', $pembimbing->id)
-            ->where(function($q) use ($today, $id) {
+            ->where(function($q) use ($today, $tugas) {
                 $q->whereDate('tanggal_mulai', '<=', $today)
                   ->whereDate('tanggal_selesai', '>=', $today)
-                  ->orWhereHas('tugas', function($tQuery) use ($id) {
-                      $tQuery->where('tugas_id', $id);
+                  ->orWhereHas('tugas', function($tQuery) use ($tugas) {
+                      $tQuery->where('tugas_id', $tugas->id);
                   });
             })
             ->get();
@@ -152,7 +153,7 @@ class TugasPController extends Controller
         return view('pembimbing.tugas.edit', compact('tugas', 'peserta'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
         $request->validate([
             'judul' => 'required|max:255',
@@ -164,7 +165,7 @@ class TugasPController extends Controller
 
         $pembimbing = Auth::user()->pembimbing;
 
-        $tugas = Tugas::findOrFail($id);
+        $tugas = Tugas::where('uuid', $uuid)->firstOrFail();
 
         $tugas->judul = $request->judul;
         $tugas->deskripsi = $request->deskripsi;
@@ -188,11 +189,11 @@ class TugasPController extends Controller
         $today = now()->toDateString();
         if ($request->has('all_peserta')) {
             $pesertaIds = PesertaPkl::where('pembimbing_id', $pembimbing->id)
-                ->where(function($q) use ($today, $id) {
+                ->where(function($q) use ($today, $tugas) {
                     $q->whereDate('tanggal_mulai', '<=', $today)
                       ->whereDate('tanggal_selesai', '>=', $today)
-                      ->orWhereHas('tugas', function($tQuery) use ($id) {
-                          $tQuery->where('tugas_id', $id);
+                      ->orWhereHas('tugas', function($tQuery) use ($tugas) {
+                          $tQuery->where('tugas_id', $tugas->id);
                       });
                 })
                 ->pluck('id')
@@ -200,11 +201,11 @@ class TugasPController extends Controller
         } else {
             $pesertaIds = PesertaPkl::whereIn('id', $request->peserta ?? [])
                 ->where('pembimbing_id', $pembimbing->id)
-                ->where(function($q) use ($today, $id) {
+                ->where(function($q) use ($today, $tugas) {
                     $q->whereDate('tanggal_mulai', '<=', $today)
                       ->whereDate('tanggal_selesai', '>=', $today)
-                      ->orWhereHas('tugas', function($tQuery) use ($id) {
-                          $tQuery->where('tugas_id', $id);
+                      ->orWhereHas('tugas', function($tQuery) use ($tugas) {
+                          $tQuery->where('tugas_id', $tugas->id);
                       });
                 })
                 ->pluck('id')
@@ -231,9 +232,9 @@ class TugasPController extends Controller
             ->with('success', 'Tugas berhasil diperbarui');
     }
 
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $tugas = Tugas::findOrFail($id);
+        $tugas = Tugas::where('uuid', $uuid)->firstOrFail();
 
         if ($tugas->file && Storage::disk('public')->exists($tugas->file)) {
             Storage::disk('public')->delete($tugas->file);
@@ -244,9 +245,9 @@ class TugasPController extends Controller
         return back()->with('success', 'Tugas dihapus');
     }
 
-    public function hasil($id)
+    public function hasil($uuid)
     {
-        $tugas = Tugas::with('pengumpulan.pesertaPkl.user')->findOrFail($id);
+        $tugas = Tugas::with('pengumpulan.pesertaPkl.user')->where('uuid', $uuid)->firstOrFail();
 
         return view('pembimbing.tugas.hasil', compact('tugas'));
     }

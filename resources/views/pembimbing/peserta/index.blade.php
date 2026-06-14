@@ -67,7 +67,7 @@
                     <div class="text-dark small fw-bold text-truncate px-2">{{ $p->asal_institusi ?? '-' }}</div>
                 </div>
 
-                <a href="{{ route('pembimbing.peserta.show', $p->id) }}" class="btn btn-primary w-100 rounded-pill fw-bold shadow-sm py-2">
+                <a href="{{ route('pembimbing.peserta.show', $p->uuid) }}" class="btn btn-primary w-100 rounded-pill fw-bold shadow-sm py-2">
                     <i class='bx bx-show me-1'></i> Detail Progres
                 </a>
             </div>

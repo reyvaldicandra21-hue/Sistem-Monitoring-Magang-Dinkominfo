@@ -42,7 +42,7 @@
 
 <div class="card-soft">
 
-<form action="{{ route('pesertapkl.laporanharian.update', $laporan->id) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('pesertapkl.laporanharian.update', $laporan->uuid) }}" method="POST" enctype="multipart/form-data">
 @csrf
 @method('PUT')
 

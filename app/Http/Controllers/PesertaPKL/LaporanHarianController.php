@@ -68,7 +68,7 @@ class LaporanHarianController extends Controller
             ->with('success', 'Laporan berhasil dikirim');
     }
 
-    public function show($id)
+    public function show($uuid)
     {
         $peserta = PesertaPKL::where('user_id', Auth::id())->first();
 
@@ -77,24 +77,24 @@ class LaporanHarianController extends Controller
             'verifikasis.pembimbing'
         ])
         ->where('peserta_pkl_id', $peserta->id)
-        ->findOrFail($id);
+        ->where('uuid', $uuid)->firstOrFail();
 
         return view('pesertapkl.laporanharian.show', compact('laporan'));
     }
 
-    public function edit($id)
+    public function edit($uuid)
     {
         $peserta = PesertaPKL::where('user_id', Auth::id())->first();
 
         $laporan = LaporanHarian::with(['dokumentasi', 'verifikasiTerakhir'])
             ->where('peserta_pkl_id', $peserta->id)
             ->where('status', 'revisi')
-            ->findOrFail($id);
+            ->where('uuid', $uuid)->firstOrFail();
 
         return view('pesertapkl.laporanharian.edit', compact('laporan'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
         $request->validate([
             'kegiatan' => 'required|max:10000',
@@ -107,7 +107,7 @@ class LaporanHarianController extends Controller
         $peserta = PesertaPKL::where('user_id', Auth::id())->first();
 
         $laporan = LaporanHarian::where('peserta_pkl_id', $peserta->id)
-            ->findOrFail($id);
+            ->where('uuid', $uuid)->firstOrFail();
 
         // ================= UPDATE DATA =================
         $laporan->update([

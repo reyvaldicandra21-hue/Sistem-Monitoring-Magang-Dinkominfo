@@ -100,11 +100,11 @@
 
             <!-- BUTTON -->
             @if(!$isSelesai)
-                <a href="{{ route('pesertapkl.tugas.create', $item->id) }}" class="btn btn-primary w-100 fw-bold py-2 shadow-sm">
+                <a href="{{ route('pesertapkl.tugas.create', $item->uuid) }}" class="btn btn-primary w-100 fw-bold py-2 shadow-sm">
                    <i class='bx bx-pencil'></i> Kerjakan Tugas
                 </a>
             @else
-                <a href="{{ route('pesertapkl.tugas.show', $item->id) }}" class="btn btn-outline-primary w-100 fw-bold py-2">
+                <a href="{{ route('pesertapkl.tugas.show', $item->uuid) }}" class="btn btn-outline-primary w-100 fw-bold py-2">
                    <i class='bx bx-detail'></i> Lihat Detail
                 </a>
             @endif

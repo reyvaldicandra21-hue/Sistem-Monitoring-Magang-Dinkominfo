@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div>
-                <a href="{{ route('admin.divisi.edit', $divisi->id) }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+                <a href="{{ route('admin.divisi.edit', $divisi->uuid) }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
                     <i class='bx bx-edit-alt me-1'></i> Edit Divisi
                 </a>
             </div>
@@ -84,7 +84,7 @@
                             <small class="text-muted" style="font-size: 0.7rem;">{{ $pb->user->email }}</small>
                         </div>
                     </div>
-                    <a href="{{ route('admin.pembimbing.show', $pb->id) }}" class="btn btn-white btn-sm rounded-circle shadow-xs">
+                    <a href="{{ route('admin.pembimbing.show', $pb->uuid) }}" class="btn btn-white btn-sm rounded-circle shadow-xs">
                         <i class='bx bx-chevron-right'></i>
                     </a>
                 </div>
@@ -112,7 +112,7 @@
                             <small class="text-muted" style="font-size: 0.7rem;">{{ $p->asal_institusi }}</small>
                         </div>
                     </div>
-                    <a href="{{ route('admin.pesertapkl.show', $p->id) }}" class="btn btn-white btn-sm rounded-circle shadow-xs">
+                    <a href="{{ route('admin.pesertapkl.show', $p->uuid) }}" class="btn btn-white btn-sm rounded-circle shadow-xs">
                         <i class='bx bx-chevron-right'></i>
                     </a>
                 </div>

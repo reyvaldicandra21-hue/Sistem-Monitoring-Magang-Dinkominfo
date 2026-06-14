@@ -84,13 +84,13 @@
 
                 <!-- ACTIONS -->
                 <div class="d-flex gap-2">
-                    <a href="{{ route('admin.divisi.show', $d->id) }}" class="btn btn-outline-success btn-sm rounded-pill flex-fill fw-bold" title="Detail">
+                    <a href="{{ route('admin.divisi.show', $d->uuid) }}" class="btn btn-outline-success btn-sm rounded-pill flex-fill fw-bold" title="Detail">
                         <i class='bx bx-show'></i>
                     </a>
-                    <a href="{{ route('admin.divisi.edit', $d->id) }}" class="btn btn-outline-primary btn-sm rounded-pill flex-fill fw-bold" title="Edit">
+                    <a href="{{ route('admin.divisi.edit', $d->uuid) }}" class="btn btn-outline-primary btn-sm rounded-pill flex-fill fw-bold" title="Edit">
                         <i class='bx bx-edit'></i>
                     </a>
-                    <form action="{{ route('admin.divisi.destroy', $d->id) }}" method="POST" onsubmit="return confirm('Yakin hapus data ini?')" class="flex-fill">
+                    <form action="{{ route('admin.divisi.destroy', $d->uuid) }}" method="POST" onsubmit="return confirm('Yakin hapus data ini?')" class="flex-fill">
                         @csrf @method('DELETE')
                         <button class="btn btn-outline-danger btn-sm rounded-pill w-100 fw-bold" title="Hapus">
                             <i class='bx bx-trash'></i>

@@ -102,7 +102,7 @@
                         </span>
                     </td>
                     <td class="text-center">
-                        <form action="{{ route('admin.users.toggle-status', $user->id) }}" method="POST" class="d-inline">
+                        <form action="{{ route('admin.users.toggle-status', $user->uuid) }}" method="POST" class="d-inline">
                             @csrf
                             <button type="submit"
                                 class="btn btn-sm rounded-pill px-3 py-1 fw-bold border-0 {{ $user->is_active ? 'btn-success' : 'btn-danger' }}"
@@ -116,11 +116,11 @@
                     </td>
                     <td class="pe-4 text-end">
                         <div class="d-flex justify-content-end gap-2">
-                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-primary btn-sm rounded-circle shadow-xs" title="Edit">
+                            <a href="{{ route('admin.users.edit', $user->uuid) }}" class="btn btn-outline-primary btn-sm rounded-circle shadow-xs" title="Edit">
                                 <i class='bx bx-edit'></i>
                             </a>
                             @if(auth()->id() != $user->id)
-                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Yakin hapus user ini?')">
+                            <form action="{{ route('admin.users.destroy', $user->uuid) }}" method="POST" onsubmit="return confirm('Yakin hapus user ini?')">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-outline-danger btn-sm rounded-circle shadow-xs" title="Hapus">
                                     <i class='bx bx-trash'></i>

@@ -24,7 +24,7 @@
     <div class="col-lg-8 col-xl-6">
         <div class="card-soft p-4 p-md-5 shadow-sm border-0 position-relative overflow-hidden">
 
-            <form action="{{ route('admin.divisi.update', $divisi->id) }}" method="POST">
+            <form action="{{ route('admin.divisi.update', $divisi->uuid) }}" method="POST">
                 @csrf
                 @method('PUT')
 

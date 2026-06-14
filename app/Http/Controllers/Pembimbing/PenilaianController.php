@@ -28,9 +28,9 @@ class PenilaianController extends Controller
     /**
      * FORM INPUT NILAI
      */
-    public function edit($id)
+    public function edit($uuid)
     {
-        $peserta = PesertaPKL::with('user')->findOrFail($id);
+        $peserta = PesertaPKL::with('user')->where('uuid', $uuid)->firstOrFail();
 
         $penilaian = Penilaian::firstOrCreate([
             'peserta_pkl_id' => $peserta->id
@@ -42,7 +42,7 @@ class PenilaianController extends Controller
     /**
      * SIMPAN / UPDATE NILAI
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
         $request->validate([
             'disiplin' => 'required|numeric|min:0|max:100',
@@ -52,7 +52,7 @@ class PenilaianController extends Controller
             'inisiatif' => 'required|numeric|min:0|max:100',
         ]);
 
-        $peserta = PesertaPKL::findOrFail($id);
+        $peserta = PesertaPKL::where('uuid', $uuid)->firstOrFail();
 
         // 🔥 HITUNG NILAI AKHIR
         $nilaiAkhir = (

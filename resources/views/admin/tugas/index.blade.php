@@ -114,7 +114,7 @@
                         </span>
                     </td>
                     <td class="pe-4 text-end">
-                        <a href="{{ route('admin.tugas.hasil', $t->id) }}" class="btn btn-outline-primary btn-sm rounded-pill fw-bold px-3 shadow-xs">
+                        <a href="{{ route('admin.tugas.hasil', $t->uuid) }}" class="btn btn-outline-primary btn-sm rounded-pill fw-bold px-3 shadow-xs">
                             <i class='bx bx-show-alt me-1'></i> Lihat Hasil
                         </a>
                     </td>

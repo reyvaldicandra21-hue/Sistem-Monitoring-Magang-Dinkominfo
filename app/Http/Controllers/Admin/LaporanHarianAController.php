@@ -46,13 +46,13 @@ class LaporanHarianAController extends Controller
     /**
      * DETAIL LAPORAN
      */
-    public function show($id)
+    public function show($uuid)
     {
         $laporan = LaporanHarian::with([
             'pesertaPkl.user',
             'verifikasis.pembimbing',
             'dokumentasi' // ✅ relasi benar
-        ])->findOrFail($id);
+        ])->where('uuid', $uuid)->firstOrFail();
 
         return view('admin.laporanharian.show', compact('laporan'));
     }
@@ -60,13 +60,13 @@ class LaporanHarianAController extends Controller
     /**
      * DOWNLOAD PDF
      */
-    public function download($id)
+    public function download($uuid)
     {
         $laporan = LaporanHarian::with([
             'pesertaPkl.user',
             'verifikasis',
             'dokumentasi'
-        ])->findOrFail($id);
+        ])->where('uuid', $uuid)->firstOrFail();
 
         $pdf = Pdf::loadView('admin.laporanharian.pdf', compact('laporan'));
         
@@ -78,13 +78,13 @@ class LaporanHarianAController extends Controller
     /**
      * DOWNLOAD BUKU LAPORAN (SEMUA LAPORAN PESERTA)
      */
-    public function downloadBuku($peserta_id)
+    public function downloadBuku($uuid)
     {
         $peserta = \App\Models\PesertaPKL::with(['user', 'pembimbing', 'divisi'])
-            ->findOrFail($peserta_id);
+            ->where('uuid', $uuid)->firstOrFail();
 
         $laporans = LaporanHarian::with(['dokumentasi'])
-            ->where('peserta_pkl_id', $peserta_id)
+            ->where('peserta_pkl_id', $peserta->id)
             ->orderBy('tanggal', 'asc')
             ->get();
 
@@ -98,7 +98,7 @@ class LaporanHarianAController extends Controller
     /**
      * VERIFIKASI
      */
-    public function verifikasi(Request $request, $id)
+    public function verifikasi(Request $request, $uuid)
     {
         $request->validate([
             'status' => 'required|in:disetujui,revisi',
@@ -107,7 +107,7 @@ class LaporanHarianAController extends Controller
             'catatan.required_if' => 'Catatan revisi wajib diisi jika Anda memilih opsi Revisi.'
         ]);
 
-        $laporan = LaporanHarian::findOrFail($id);
+        $laporan = LaporanHarian::where('uuid', $uuid)->firstOrFail();
 
         $laporan->update([
             'status' => $request->status

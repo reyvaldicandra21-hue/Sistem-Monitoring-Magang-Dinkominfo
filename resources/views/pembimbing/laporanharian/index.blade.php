@@ -111,7 +111,7 @@
                         @endif
                     </td>
                     <td class="text-center pe-4">
-                        <a href="{{ route('pembimbing.laporanharian.show', $laporan->id) }}"
+                        <a href="{{ route('pembimbing.laporanharian.show', $laporan->uuid) }}"
                            class="btn btn-primary btn-sm rounded-pill px-3 fw-bold shadow-sm">
                             <i class='bx bx-show me-1'></i> Detail
                         </a>

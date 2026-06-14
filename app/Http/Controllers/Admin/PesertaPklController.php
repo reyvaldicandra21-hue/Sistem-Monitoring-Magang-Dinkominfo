@@ -127,9 +127,12 @@ public function store(Request $request)
 }
 
     // ================= DETAIL =================
-public function show($id)
+public function show($uuid)
 {
-    $pesertapkl = PesertaPkl::with([
+    $pesertapkl = PesertaPkl::where('uuid', $uuid)->firstOrFail();
+    $pesertaId  = $pesertapkl->id;
+
+    $pesertapkl->load([
         'user',
         'pembimbing',
         'divisi',
@@ -137,23 +140,23 @@ public function show($id)
         'laporanHarian' => function($q) {
             $q->with('verifikasiTerakhir.pembimbing')->latest('tanggal');
         },
-        'tugas' => function($q) use ($id) {
-            $q->with(['pembimbing', 'pengumpulan' => function($pq) use ($id) {
-                $pq->where('peserta_pkl_id', $id);
+        'tugas' => function($q) use ($pesertaId) {
+            $q->with(['pembimbing', 'pengumpulan' => function($pq) use ($pesertaId) {
+                $pq->where('peserta_pkl_id', $pesertaId);
             }])->latest();
         },
         'historyDivisi' => function($q) {
             $q->with(['divisiLama', 'divisiBaru']);
         }
-    ])->findOrFail($id);
+    ]);
 
     return view('admin.pesertapkl.show', compact('pesertapkl'));
 }
 
     // ================= EDIT =================
-    public function edit($id)
+    public function edit($uuid)
     {
-        $pesertapkl = PesertaPkl::with(['user', 'historyDivisi'])->findOrFail($id);
+        $pesertapkl = PesertaPkl::with(['user', 'historyDivisi'])->where('uuid', $uuid)->firstOrFail();
 
         return view('admin.pesertapkl.edit', [
             'peserta'      => $pesertapkl,
@@ -163,9 +166,9 @@ public function show($id)
     }
 
     // ================= UPDATE =================
-public function update(Request $request, $id)
+public function update(Request $request, $uuid)
 {
-    $pesertapkl = PesertaPkl::findOrFail($id);
+    $pesertapkl = PesertaPkl::where('uuid', $uuid)->firstOrFail();
 
     $request->validate([
         'name' => 'required|string|max:255',
@@ -228,9 +231,9 @@ public function update(Request $request, $id)
         ->with('success', 'Peserta berhasil diperbarui.');
 }
     // ================= DELETE =================
-    public function destroy($id)
+    public function destroy($uuid)
     {
-        $pesertapkl = PesertaPkl::findOrFail($id);
+        $pesertapkl = PesertaPkl::where('uuid', $uuid)->firstOrFail();
 
         DB::transaction(function () use ($pesertapkl) {
             $pesertapkl->delete();

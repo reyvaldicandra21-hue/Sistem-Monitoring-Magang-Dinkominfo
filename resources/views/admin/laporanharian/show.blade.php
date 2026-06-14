@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="d-flex gap-2">
-                <a href="{{ route('admin.laporanharian.download', $laporan->id) }}" class="btn btn-danger rounded-pill px-4 fw-bold shadow-sm py-2">
+                <a href="{{ route('admin.laporanharian.download', $laporan->uuid) }}" class="btn btn-danger rounded-pill px-4 fw-bold shadow-sm py-2">
                     <i class='bx bxs-file-pdf me-1'></i> PDF
                 </a>
             </div>
@@ -106,7 +106,7 @@
         <div class="card-soft p-4 shadow-sm border-0 bg-white">
             <h6 class="fw-bold mb-4 d-flex align-items-center"><i class='bx bx-check-shield text-primary me-2'></i> Form Verifikasi Admin</h6>
             @if($laporan->status === 'menunggu')
-            <form id="verifikasiForm" action="{{ route('admin.laporanharian.verifikasi', $laporan->id) }}" method="POST">
+            <form id="verifikasiForm" action="{{ route('admin.laporanharian.verifikasi', $laporan->uuid) }}" method="POST">
                 @csrf
                 <div class="mb-4">
                     <label class="form-label fw-bold small text-secondary">CATATAN VERIFIKASI (WAJIB JIKA REVISI)</label>

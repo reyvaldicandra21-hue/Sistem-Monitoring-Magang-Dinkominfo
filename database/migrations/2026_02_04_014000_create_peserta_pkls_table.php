@@ -23,11 +23,6 @@ Schema::create('peserta_pkls', function (Blueprint $table) {
         ->constrained('pembimbings')
         ->nullOnDelete();
 
-    $table->foreignId('pembimbing_sekolah_id')
-        ->nullable()
-        ->constrained('pembimbing_sekolahs')
-        ->nullOnDelete();
-
     $table->foreignId('divisi_id')
         ->nullable()
         ->constrained('divisi')

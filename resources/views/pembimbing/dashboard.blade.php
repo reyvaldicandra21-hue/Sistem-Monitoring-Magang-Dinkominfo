@@ -102,7 +102,7 @@
                     </div>
                     <div class="scroll-area pe-2" style="max-height: 100px; overflow-y: auto;">
                         @forelse($laporan as $l)
-                        <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded-4 border border-white hover-up transition-all cursor-pointer" onclick="window.location='{{ route('pembimbing.laporanharian.show', $l->id) }}'">
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded-4 border border-white hover-up transition-all cursor-pointer" onclick="window.location='{{ route('pembimbing.laporanharian.show', $l->uuid) }}'">
                             <div class="d-flex align-items-center gap-3 overflow-hidden">
                                 <div class="avatar-circle bg-white text-primary fw-bold flex-shrink-0" style="width: 40px; height: 40px; font-size: 0.9rem; border: 2px solid #eef2f6;">
                                     {{ strtoupper(substr(optional($l->pesertaPkl->user)->name ?? 'P',0,1)) }}
@@ -173,7 +173,7 @@
             </div>
             <div class="scroll-area pe-2" style="max-height: 100px; overflow-y: auto;">
                 @forelse($pesertaBimbingan as $p)
-                <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded-4 border border-white hover-up transition-all cursor-pointer" onclick="window.location='{{ route('pembimbing.peserta.show', $p->id) }}'">
+                <div class="d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded-4 border border-white hover-up transition-all cursor-pointer" onclick="window.location='{{ route('pembimbing.peserta.show', $p->uuid) }}'">
                     <div class="d-flex align-items-center gap-2 overflow-hidden">
                         <div class="avatar-circle bg-white text-primary fw-bold flex-shrink-0" style="width: 35px; height: 35px; font-size: 0.8rem; border: 2px solid #eef2f6;">
                             {{ strtoupper(substr($p->user->name, 0, 1)) }}
